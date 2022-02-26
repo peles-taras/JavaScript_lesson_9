@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX lesson</title>
+</head>
+
+<body>
+    <style>
+        .texts {
+            font-size: 25px;
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+
+        }
+
+        .forms {
+            width: 200px;
+            height: 22px;
+            font-size: 18px;
+            border-color: lightslategray;
+            display: flex;
+            margin: auto;
+        }
+
+        .button {
+            width: 140px;
+            height: 30px;
+            display: flex;
+            margin: auto;
+            padding-left: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+    <form>
+        <label class="texts">Surname</label><input id="lName" type="text" class="forms">
+        <label class="texts">Name</label><input id="fName" type="text" class="forms">
+        <label class="texts">Age</label><input id="age" type="number" class="forms">
+        <label class="texts">Home Adress</label><input id="address" type="text" class="forms">
+        <br><input type="button" value="GET Submit" class="button" onclick="sendDataByGetMethod()">
+        <br><input type="button" value="SEND Submit" class="button" onclick="sendDataByPostMethod()">
+    </form>
+
+    <script>
+        function sendDataByGetMethod() {
+            let userData = {
+                lName: document.getElementById("lName").value,
+                fName: document.getElementById("fName").value,
+                age: document.getElementById("age").value,
+                address: document.getElementById("address").value
+            };
+            if (userData.age > 100 || userData.age < 1) {
+                document.getElementById('age').setAttribute('placeholder', 'Wrong age data')
+                document.getElementById('age').style.borderColor = 'red';
+                document.getElementById('age').value = null;
+                document.getElementById('age').focus;
+            }
+            if (userData.age <= 100 && userData.age >= 1) {
+                document.getElementById('age').removeAttribute('placeholder');
+                document.getElementById('age').style.borderColor = 'lightslategray';
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/formGet?lName=' + userData.lName + '&fName=' + userData.fName
+                + '&age=' + userData.age + '&address=' + userData.address);
+            xhr.setRequestHeader('Content-Type', 'Application/json');
+            xhr.send();
+        }
+
+        function sendDataByPostMethod() {
+            let userData = {
+                lName: document.getElementById("lName").value,
+                fName: document.getElementById("fName").value,
+                age: document.getElementById("age").value,
+                address: document.getElementById("address").value
+            };
+            if (userData.age > 100 || userData.age < 1) {
+                document.getElementById('age').setAttribute('placeholder', 'Wrong age data')
+                document.getElementById('age').style.borderColor = 'red';
+                document.getElementById('age').value = null;
+                document.getElementById('age').focus;
+            }
+            if (userData.age <= 100 && userData.age >= 1) {
+                document.getElementById('age').removeAttribute('placeholder');
+                document.getElementById('age').style.borderColor = 'lightslategray';
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/formPost');
+            xhr.setRequestHeader('Content-Type', 'Application/json');
+            xhr.send(JSON.stringify(userData));
+        }
+    </script>
+</body>
+
+</html>
